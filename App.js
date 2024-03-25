@@ -1,10 +1,6 @@
 import express from "express";
-import Hello from "./Hello.js";
-import Courses from "./Courses/routes.js";
-import Modules from "./Modules/routes.js";
 import cors from "cors";
 import session from "express-session";
-import SessionExercises from "./SessionExercises.js";
 import Users from "./Users/routes.js";
 
 const app = express();
@@ -24,10 +20,6 @@ app.use(
   })
 );
 
-Hello(app);
-Courses(app);
-Modules(app);
-SessionExercises(app);
 Users(app);
 
 app.listen(4000);
