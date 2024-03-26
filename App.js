@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import session from "express-session";
 import Users from "./Users/routes.js";
+import Search from "./Search/routes.js";
 
 const app = express();
 app.use(
@@ -21,5 +22,5 @@ app.use(
 );
 
 Users(app);
-
+Search(app);
 app.listen(4000);
