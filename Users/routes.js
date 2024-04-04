@@ -5,6 +5,10 @@ export default function Users(app) {
     res.send(db.users);
   });
 
+  const allUsers = (req,res) => {
+    res.send(db.users)
+  }
+
   const register = (req, res) => {
     const { username, password } = req.body;
     const user = db.users.find((user) => user.username === username);
@@ -24,6 +28,7 @@ export default function Users(app) {
     );
     if (user) {
       req.session["currentUser"] = user;
+      req.session.save();
       res.send(user);
     } else {
       res.sendStatus(401);
@@ -36,10 +41,21 @@ export default function Users(app) {
   
   const profile = (req, res) => {
     const currentUser = req.session["currentUser"];
+    console.log(currentUser)
     if (currentUser) {
       res.send(currentUser);
     } else {
       res.sendStatus(401);
+    }
+  };
+
+  const profileother = (req, res) => {
+    const id = req.params.userId;
+    const user = db.users.find((user) => user._id === id);
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'User not found' });
     }
   };
 
@@ -59,5 +75,8 @@ export default function Users(app) {
   app.post("/api/users/login", login);
   app.post("/api/users/logout", logout);
   app.get("/api/users/profile", profile);
+  app.get("/api/users/profile/:userId", profileother);
   app.put("/api/users/profile", updateProfile);
+  
+  app.get("/api/allusers", allUsers);
 }
